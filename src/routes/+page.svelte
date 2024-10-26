@@ -1,10 +1,20 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { Button } from '$lib/components/ui/button';
 	import DpeCard from '$lib/components/dpe/DpeCard.svelte';
 	import { Search, Superficie, CodePostal, Consommation, Note } from '$lib/components/form';
 	import AnneeConstruction from '$lib/components/form/AnneeConstruction.svelte';
 	import DateDpe from '$lib/components/form/DateDpe.svelte';
 	import { ApiClient } from '$lib/api/client.svelte';
+	import { onMount, type SvelteComponent } from 'svelte';
+
+	let LeafletContainer;
+
+	onMount(async () => {
+		if (browser) {
+			LeafletContainer = (await import('$lib/components/Map.svelte')).default;
+		}
+	});
 
 	let api = new ApiClient();
 	let parameters = api.parameters;
@@ -14,13 +24,13 @@
 	<h1 class="text-2xl font-bold mb-6">Recherche de DPE</h1>
 
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-		<Search {parameters}/>
-		<CodePostal {parameters}/>
-		<Superficie {parameters}/>
-		<Consommation {parameters}/>
-		<Note {parameters}/>
-		<AnneeConstruction {parameters}/>
-		<DateDpe {parameters}/>
+		<Search {parameters} />
+		<CodePostal {parameters} />
+		<Superficie {parameters} />
+		<Consommation {parameters} />
+		<Note {parameters} />
+		<AnneeConstruction {parameters} />
+		<DateDpe {parameters} />
 	</div>
 
 	<Button onclick={() => api.searchDPE()} disabled={api.loading}>
@@ -33,17 +43,25 @@
 		</div>
 	{/if}
 
-	{#if api.results.length > 0}
-		<div class="mt-6">
-			<h2 class="text-xl font-bold mb-4">Résultats ({api.results.length})</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{#each api.results as dpe}
-					<DpeCard {dpe} />
-				{/each}
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+		{#if api.results.length > 0}
+			<div class="mt-6">
+				<h2 class="text-xl font-bold mb-4">Résultats ({api.results.length})</h2>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{#each api.results as dpe}
+						<DpeCard {dpe} />
+					{/each}
+				</div>
 			</div>
-		</div>
-	{:else if !api.loading && !api.error}
-		<p class="mt-4 text-gray-600">Aucun résultat à afficher</p>
-	{/if}
-</main>
+		{:else if !api.loading && !api.error}
+			<p class="mt-4 text-gray-600">Aucun résultat à afficher</p>
+		{/if}
 
+		{#if browser}
+			<div class="mt-6">
+				<h2 class="text-xl font-bold mb-4">Carte</h2>
+				<svelte:component this={LeafletContainer} markers={api.getGeoPoints()} />
+			</div>
+		{/if}
+	</div>
+</main>

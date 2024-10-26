@@ -8,10 +8,5 @@
 
 <div class="form-group">
 	<Label for="superficie" class="block mb-2">Superficie (m²)</Label>
-	<Input
-		type="number"
-		id="superficie"
-		bind:value={parameters.superficie}
-		placeholder="Ex: 75"
-	/>
+	<Input type="number" id="superficie" bind:value={parameters.superficie} placeholder="Ex: 75" />
 </div>

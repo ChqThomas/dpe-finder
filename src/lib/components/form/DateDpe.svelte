@@ -13,5 +13,7 @@
 		id="date_dpe"
 		bind:value={parameters.dateDpe}
 		placeholder="Ex: 2022-01-01"
+		min={new Date('2021-06-30').toISOString().split('T')[0]}
+		max={new Date().toISOString().split('T')[0]}
 	/>
 </div>

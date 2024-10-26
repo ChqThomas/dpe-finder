@@ -1,8 +1,8 @@
 import type { ApiRequest, Note, Result } from '$lib';
 
 export class Parameters {
-	codePostal: string = $state('');
-	superficie: number = $state(57);
+	codePostal: string = $state('33000');
+	superficie: number | undefined = $state();
 	note: Note = $state('C');
 	constructionYear: number = $state(1975);
 	consommation: number | undefined = $state();
@@ -15,7 +15,8 @@ export class Parameters {
 		'Surface_habitable_logement',
 		'Etiquette_DPE',
 		'Conso_5_usages_par_m²_é_primaire',
-		'Année_construction'
+		'Année_construction',
+		'_geopoint'
 	];
 
 	getQueryParams() {

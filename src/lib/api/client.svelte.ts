@@ -33,4 +33,11 @@ export class ApiClient {
 		}
 	}
 
+	getGeoPoints() {
+		return this.results.map((result) => {
+			return {
+				latLng: result._geopoint.split(',').map((coord) => parseFloat(coord))
+			};
+		});
+	}
 }

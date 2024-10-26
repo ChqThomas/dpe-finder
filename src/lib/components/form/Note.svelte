@@ -15,11 +15,11 @@
 
 	<Select.Root
 		onSelectedChange={(e) => {
-					if (e?.value) {
-						// @ts-expect-error Note
-						parameters.note = e.value;
-					}
-				}}
+			if (e?.value) {
+				// @ts-expect-error Note
+				parameters.note = e.value;
+			}
+		}}
 	>
 		<Select.Trigger>
 			{#if parameters.note}

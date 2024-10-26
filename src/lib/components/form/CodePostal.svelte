@@ -8,10 +8,5 @@
 
 <div class="form-group">
 	<Label for="codePostal" class="block mb-2">Code Postal</Label>
-	<Input
-		type="text"
-		id="codePostal"
-		bind:value={parameters.codePostal}
-		placeholder="Ex: 75001"
-	/>
+	<Input type="text" id="codePostal" bind:value={parameters.codePostal} placeholder="Ex: 75001" />
 </div>
