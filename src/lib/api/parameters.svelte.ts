@@ -12,6 +12,7 @@ export class Parameters {
 		'N°DPE',
 		'Adresse_brute',
 		'Code_postal_(brut)',
+		'Nom__commune_(BAN)',
 		'Surface_habitable_logement',
 		'Etiquette_DPE',
 		'Conso_5_usages_par_m²_é_primaire',

@@ -27,16 +27,18 @@ export class ApiClient {
 			const data = (await response.json()) as ApiResponse;
 			this.results = data.results;
 		} catch (e) {
+			// @ts-expect-error TODO: fix type
 			this.error = e.message;
 		} finally {
 			this.loading = false;
 		}
 	}
 
-	getGeoPoints() {
+	getGeoPoints(): { result: Result; latLng: [number, number] }[] {
 		return this.results.map((result) => {
 			return {
-				latLng: result._geopoint.split(',').map((coord) => parseFloat(coord))
+				result: result,
+				latLng: result._geopoint.split(',').map((coord) => parseFloat(coord)) as [number, number]
 			};
 		});
 	}

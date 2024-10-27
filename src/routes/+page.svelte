@@ -6,15 +6,27 @@
 	import AnneeConstruction from '$lib/components/form/AnneeConstruction.svelte';
 	import DateDpe from '$lib/components/form/DateDpe.svelte';
 	import { ApiClient } from '$lib/api/client.svelte';
-	import { onMount, type SvelteComponent } from 'svelte';
+	import { onMount } from 'svelte';
+	import type Map from '$lib/components/Map.svelte';
+	import type { Result } from '$lib';
 
-	let LeafletContainer;
+	let LeafletContainer: typeof Map | undefined = $state();
+	let LeafletMap: ReturnType<typeof Map> | undefined = $state();
 
 	onMount(async () => {
 		if (browser) {
 			LeafletContainer = (await import('$lib/components/Map.svelte')).default;
 		}
 	});
+
+	function search() {
+		if (LeafletMap) {
+			LeafletMap.resetMarkers();
+		}
+		api.searchDPE();
+	}
+
+	let hightlightedMarker: Result | undefined = $state();
 
 	let api = new ApiClient();
 	let parameters = api.parameters;
@@ -33,7 +45,7 @@
 		<DateDpe {parameters} />
 	</div>
 
-	<Button onclick={() => api.searchDPE()} disabled={api.loading}>
+	<Button onclick={search} disabled={api.loading}>
 		{api.loading ? 'Recherche en cours...' : 'Rechercher'}
 	</Button>
 
@@ -49,7 +61,11 @@
 				<h2 class="text-xl font-bold mb-4">Résultats ({api.results.length})</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{#each api.results as dpe}
-						<DpeCard {dpe} />
+						<DpeCard
+							{dpe}
+							onmouseover={() => (hightlightedMarker = dpe)}
+							onmouseout={() => (hightlightedMarker = undefined)}
+						/>
 					{/each}
 				</div>
 			</div>
@@ -60,7 +76,11 @@
 		{#if browser}
 			<div class="mt-6">
 				<h2 class="text-xl font-bold mb-4">Carte</h2>
-				<svelte:component this={LeafletContainer} markers={api.getGeoPoints()} />
+				<LeafletContainer
+					bind:this={LeafletMap}
+					markers={api.getGeoPoints()}
+					{hightlightedMarker}
+				/>
 			</div>
 		{/if}
 	</div>
