@@ -1,17 +1,17 @@
 import type { ApiRequest, Note, Result } from '$lib';
 
 export class Parameters {
-	codePostal: string = $state('33000');
+	codePostal: string = $state('');
 	superficie: number | undefined = $state();
-	note: Note = $state('C');
-	constructionYear: number = $state(1975);
+	note: Note | undefined = $state();
+	constructionYear: number | undefined = $state();
 	consommation: number | undefined = $state();
 	dateDpe = $state('');
 	search = $state('');
 	selected: (keyof Result)[] = [
 		'N°DPE',
 		'Adresse_brute',
-		'Code_postal_(brut)',
+		'Code_postal_(BAN)',
 		'Nom__commune_(BAN)',
 		'Surface_habitable_logement',
 		'Etiquette_DPE',
@@ -22,7 +22,7 @@ export class Parameters {
 
 	getQueryParams() {
 		const params: ApiRequest = {
-			size: 20,
+			size: 1000,
 			q_mode: 'simple',
 			select: this.selected.join(',')
 		};
@@ -32,7 +32,7 @@ export class Parameters {
 		}
 
 		if (this.codePostal) {
-			params['Code_postal_(brut)_eq'] = this.codePostal;
+			params['Code_postal_(BAN)_eq'] = this.codePostal;
 		}
 
 		if (this.consommation) {

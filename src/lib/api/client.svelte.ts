@@ -34,11 +34,21 @@ export class ApiClient {
 		}
 	}
 
-	getGeoPoints(): { result: Result; latLng: [number, number] }[] {
+	getGeoPoints(): { result: Result; latLng: [number, number] | null | undefined }[] {
 		return this.results.map((result) => {
+			let latLng = result._geopoint?.split(',').map((coord) => parseFloat(coord)) as
+				| [number, number]
+				| null
+				| undefined;
+
+			// filter invalid coordinates
+			if (latLng && latLng[0] < 0) {
+				latLng = null;
+			}
+
 			return {
 				result: result,
-				latLng: result._geopoint.split(',').map((coord) => parseFloat(coord)) as [number, number]
+				latLng
 			};
 		});
 	}

@@ -65,34 +65,36 @@
 	<LeafletMap options={mapOptions} bind:this={leafletMap}>
 		<TileLayer url={DEFAULT_TILE_URL} options={DEFAULT_TILE_LAYER_OPTIONS} />
 		{#each markers as marker}
-			<Marker
-				latLng={marker.latLng}
-				zIndexOffset={hightlightedMarker?.['N°DPE'] === marker.result['N°DPE'] ? 1000 : 0}
-				bind:this={mapMarkersComponents[marker.result['N°DPE']]}
-			>
-				{#if marker.result['N°DPE'] === hightlightedMarker?.['N°DPE']}
-					<Icon
-						iconUrl="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png"
-					/>
-				{:else}
-					<Icon
-						iconUrl="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png"
-					/>
-				{/if}
-				<Tooltip options={{ direction: 'bottom' }}
-					>{marker.result.Adresse_brute}
-					{marker.result['Code_postal_(brut)']}
-					{marker.result['Nom__commune_(BAN)']}</Tooltip
+			{#if marker.latLng}
+				<Marker
+					latLng={marker.latLng}
+					zIndexOffset={hightlightedMarker?.['N°DPE'] === marker.result['N°DPE'] ? 1000 : 0}
+					bind:this={mapMarkersComponents[marker.result['N°DPE']]}
 				>
-				<Popup>
-					<DpeCard dpe={marker.result} />
-					<a
-						target="_blank"
-						href="https://www.google.com/maps/search/?api=1&query={marker.latLng[0]},{marker
-							.latLng[1]}">Ouvrir dans Google Maps</a
+					{#if marker.result['N°DPE'] === hightlightedMarker?.['N°DPE']}
+						<Icon
+							iconUrl="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png"
+						/>
+					{:else}
+						<Icon
+							iconUrl="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png"
+						/>
+					{/if}
+					<Tooltip options={{ direction: 'bottom' }}
+						>{marker.result.Adresse_brute}
+						{marker.result['Code_postal_(BAN)']}
+						{marker.result['Nom__commune_(BAN)']}</Tooltip
 					>
-				</Popup>
-			</Marker>
+					<Popup>
+						<DpeCard dpe={marker.result} />
+						<a
+							target="_blank"
+							href="https://www.google.com/maps/search/?api=1&query={marker.latLng[0]},{marker
+								.latLng[1]}">Ouvrir dans Google Maps</a
+						>
+					</Popup>
+				</Marker>
+			{/if}
 		{/each}
 	</LeafletMap>
 </div>

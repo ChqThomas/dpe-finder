@@ -22,7 +22,7 @@
 			>DPE {dpe['N°DPE']}</a
 		>
 	</h3>
-	<p>Adresse : {dpe.Adresse_brute} {dpe['Code_postal_(brut)']}</p>
+	<p>Adresse : {dpe.Adresse_brute} {dpe['Code_postal_(BAN)']}</p>
 	<p>Surface habitable : {dpe.Surface_habitable_logement} m²</p>
 	<p>
 		Note:

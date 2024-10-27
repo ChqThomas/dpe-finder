@@ -8,5 +8,10 @@
 
 <div class="form-group">
 	<Label for="consommation" class="block mb-2">Consommation (kWh/m²/an)</Label>
-	<Input type="number" id="consommation" bind:value={parameters.consommation} placeholder="145" />
+	<Input
+		type="number"
+		id="consommation"
+		bind:value={parameters.consommation}
+		placeholder="Ex: 145"
+	/>
 </div>
