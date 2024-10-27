@@ -12,20 +12,12 @@
 
 <div class="form-group">
 	<Label for="note" class="block mb-2">Note énergétique</Label>
-
-	<Select.Root
-		onSelectedChange={(e) => {
-			if (e?.value) {
-				// @ts-expect-error Note
-				parameters.note = e.value;
-			}
-		}}
-	>
+	<Select.Root type="single" name="note" bind:value={parameters.note}>
 		<Select.Trigger>
 			{#if parameters.note}
 				<DpeCircle note={parameters.note} />
 			{:else}
-				<Select.Value placeholder="Note énergétique" />
+				Note énergétique
 			{/if}
 		</Select.Trigger>
 		<Select.Content>
@@ -35,6 +27,5 @@
 				</Select.Item>
 			{/each}
 		</Select.Content>
-		<Select.Input name="favoriteFruit" />
 	</Select.Root>
 </div>

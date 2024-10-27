@@ -14,7 +14,7 @@
 	};
 
 	let leafletMap: LeafletMap;
-	let map: L.Map = $state();
+	let map: L.Map | undefined = $state();
 
 	const mapOptions: MapOptions = {
 		center: [47.0245459, 3.0122007],
